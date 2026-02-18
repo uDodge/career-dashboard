@@ -31,8 +31,8 @@ Aria is a personal AI assistant ecosystem consisting of three Docker containers 
 ```
                          +---------------------------+
                          |    Raspberry Pi 5 Host     |
-                         |   (192.168.1.95 / LAN)    |
-                         |   (100.91.22.52 / Tailscale)|
+                         |   (192.168.1... / LAN)    |
+                         |   ( ..../ Tailscale)|
                          +---------------------------+
                                      |
                     +----------------+----------------+
@@ -43,7 +43,7 @@ Aria is a personal AI assistant ecosystem consisting of three Docker containers 
           +---------+----+  +-------+------+  +------+--------+
           | Agent Zero   |  | Career       |  | Telegram      |
           | (Aria)       |  | Dashboard    |  | Bridge        |
-          | Port: 50001  |  | Port: 50002  |  | Port: 8080    |
+          | Port: ....  |  | Port: ....  |  | Port: ....    |
           | Image:       |  | Image:       |  | Image:        |
           | agent0ai/    |  | custom build |  | custom build  |
           | agent-zero   |  | (Flask)      |  | (Python)      |
@@ -66,7 +66,7 @@ Aria is a personal AI assistant ecosystem consisting of three Docker containers 
 | Kernel | 6.12.62+rpt-rpi-2712 |
 | RAM | 16 GB |
 | Storage | 234 GB microSD |
-| Network | Ethernet (192.168.1.95 on LAN) |
+| Network | Ethernet (192.168.1.... on LAN) |
 | Hostname | a-zero |
 
 **Minimum system requirements:**
@@ -79,8 +79,8 @@ Aria is a personal AI assistant ecosystem consisting of three Docker containers 
 
 | Component | Container Name | Image | Host Port | Container Port | Purpose |
 |-----------|---------------|-------|-----------|----------------|---------|
-| Agent Zero (Aria) | `agent-zero` | `agent0ai/agent-zero` | 192.168.1.95:50001 | 80 | AI agent framework |
-| Career Dashboard | `career-dashboard` | Custom build | 192.168.1.95:50002 | 5000 | Web dashboard for career tracking |
+| Agent Zero (Aria) | `agent-zero` | `agent0ai/agent-zero` | 192.168.1.... | 80 | AI agent framework |
+| Career Dashboard | `career-dashboard` | Custom build | 192.168.1.... | 5000 | Web dashboard for career tracking |
 | Telegram Bridge | `telegram-bridge` | Custom build | 0.0.0.0:8080 | 8080 | Telegram bot relay to Agent Zero |
 
 ---
@@ -130,7 +130,7 @@ You will need accounts and API keys from the following services:
 **Telegram bot setup:**
 1. Open Telegram and search for `@BotFather`
 2. Send `/newbot` and follow the prompts to name your bot
-3. Copy the bot token (format: `123456789:ABCdefGHIjklMNO...`)
+3. Copy the bot token (format: `123456789:ABCdef........`)
 4. Send `/setdescription` to add a description
 
 **Finding your Telegram user ID:**
@@ -257,7 +257,7 @@ networks:
     name: agent-zero-net
 ```
 
-> **Important:** Replace `192.168.1.95` with your Pi's LAN IP address. Replace `/home/udodge/` with your actual home directory if different.
+> **Important:** Replace `192.168.1...` with your Pi's LAN IP address. Replace `/home/udodge/` with your actual home directory if different.
 
 **Key security features in this configuration:**
 - `read_only: true` — Container filesystem is read-only; only mounted volumes and tmpfs are writable
@@ -279,7 +279,7 @@ docker ps | grep agent-zero
 docker logs agent-zero --tail 20
 ```
 
-Access the web UI at `http://192.168.1.95:50001` in your browser.
+Access the web UI at `http://192.168.1.....` in your browser.
 
 ### 3.3 Agent Zero Configuration
 
