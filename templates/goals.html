@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Goals & Roadmap{% endblock %}
+
+{% block content %}
+<h1 class="section-header">Career Roadmap</h1>
+
+<div style="display: grid; gap: 20px; margin-top: 30px;">
+    {% for phase in data.phases %}
+    <div class="card phase-card">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+            <div>
+                <h2>{{ phase.name }}</h2>
+                <div style="color: #6c757d; margin-top: 5px;">{{ phase.months }}</div>
+            </div>
+            <span class="badge badge-{{ phase.status }}">{{ phase.status }}</span>
+        </div>
+
+        <p style="margin-bottom: 20px;">{{ phase.description }}</p>
+
+        <h3 style="margin-bottom: 15px;">Milestones</h3>
+        <div>
+            {% for milestone in phase.milestones %}
+            <div class="milestone-item" style="cursor: pointer;"
+                 onclick="updateMilestone('{{ phase.id }}', '{{ milestone.title }}', '{{ milestone.status }}')">
+                <input type="checkbox"
+                       {% if milestone.status == 'complete' %}checked{% endif %}
+                       onclick="event.stopPropagation();">
+                <span>{{ milestone.title }}</span>
+                <span class="badge badge-{{ milestone.status }}">{{ milestone.status }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+function updateMilestone(phaseId, title, currentStatus) {
+    const statusCycle = {
+        'pending': 'in_progress',
+        'in_progress': 'complete',
+        'complete': 'pending'
+    };
+
+    const newStatus = statusCycle[currentStatus];
+
+    fetch('/api/milestone', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            phase_id: phaseId,
+            title: title,
+            status: newStatus
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+</script>
+{% endblock %}

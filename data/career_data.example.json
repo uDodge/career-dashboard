@@ -1,0 +1,369 @@
+{
+  "profile": {
+    "name": "PJ",
+    "current_role": "IT Infrastructure / Support",
+    "target_role": "AI Solutions Architect",
+    "industry": "Manufacturing",
+    "experience_years": 12,
+    "transition_start": "2026-02-17",
+    "timeline_years": "2-5"
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "Foundation",
+      "months": "1-6",
+      "status": "active",
+      "start_date": "2026-02-17",
+      "description": "Python, AI/ML fundamentals, Cloud basics",
+      "milestones": [
+        {
+          "title": "Python proficiency",
+          "status": "in_progress",
+          "quarter": "Q1"
+        },
+        {
+          "title": "Complete ML fundamentals course",
+          "status": "pending",
+          "quarter": "Q1"
+        },
+        {
+          "title": "AWS Cloud Practitioner cert",
+          "status": "pending",
+          "quarter": "Q2"
+        },
+        {
+          "title": "Build 2 personal AI projects",
+          "status": "in_progress",
+          "quarter": "Q2"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Specialization",
+      "months": "7-12",
+      "status": "upcoming",
+      "start_date": "2026-08-17",
+      "description": "Deep learning, NLP, Cloud AI services, MLOps",
+      "milestones": [
+        {
+          "title": "Deep learning course complete",
+          "status": "pending",
+          "quarter": "Q3"
+        },
+        {
+          "title": "Cloud AI services hands-on",
+          "status": "pending",
+          "quarter": "Q3"
+        },
+        {
+          "title": "AWS SA Associate or Azure AI cert",
+          "status": "in_progress",
+          "quarter": "Q4"
+        },
+        {
+          "title": "MLOps pipeline project",
+          "status": "pending",
+          "quarter": "Q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Architecture",
+      "months": "13-24",
+      "status": "upcoming",
+      "start_date": "2027-02-17",
+      "description": "System design, enterprise AI, data engineering",
+      "milestones": [
+        {
+          "title": "System design for ML pipelines",
+          "status": "pending",
+          "quarter": "Q5"
+        },
+        {
+          "title": "Enterprise AI deployment project",
+          "status": "pending",
+          "quarter": "Q6"
+        },
+        {
+          "title": "AWS ML Specialty cert",
+          "status": "pending",
+          "quarter": "Q6"
+        },
+        {
+          "title": "Architecture portfolio complete",
+          "status": "pending",
+          "quarter": "Q8"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Transition",
+      "months": "25-36",
+      "status": "upcoming",
+      "start_date": "2028-02-17",
+      "description": "AI-adjacent roles, networking, open-source contributions",
+      "milestones": [
+        {
+          "title": "Land AI-adjacent role",
+          "status": "pending",
+          "quarter": "Q9"
+        },
+        {
+          "title": "Open-source AI contributions",
+          "status": "pending",
+          "quarter": "Q10"
+        },
+        {
+          "title": "Interview prep complete",
+          "status": "pending",
+          "quarter": "Q12"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Arrival",
+      "months": "37-60",
+      "status": "upcoming",
+      "start_date": "2029-02-17",
+      "description": "AI Solutions Architect role",
+      "milestones": [
+        {
+          "title": "AI Solutions Architect role",
+          "status": "pending",
+          "quarter": "Q13"
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Python",
+      "level": 25,
+      "target": 90,
+      "color": "#3776ab"
+    },
+    {
+      "name": "Machine Learning",
+      "level": 10,
+      "target": 85,
+      "color": "#ff6384"
+    },
+    {
+      "name": "Deep Learning",
+      "level": 5,
+      "target": 75,
+      "color": "#ff9f40"
+    },
+    {
+      "name": "Cloud Architecture",
+      "level": 15,
+      "target": 85,
+      "color": "#4bc0c0"
+    },
+    {
+      "name": "MLOps",
+      "level": 5,
+      "target": 70,
+      "color": "#9966ff"
+    },
+    {
+      "name": "System Design",
+      "level": 20,
+      "target": 80,
+      "color": "#ffcd56"
+    },
+    {
+      "name": "NLP & GenAI",
+      "level": 15,
+      "target": 80,
+      "color": "#c9cbcf"
+    },
+    {
+      "name": "Business & Comms",
+      "level": 40,
+      "target": 75,
+      "color": "#36a2eb"
+    }
+  ],
+  "achievements": [
+    {
+      "id": 1,
+      "title": "Set up Aria on Raspberry Pi 5",
+      "category": "project",
+      "date": "2026-02-17",
+      "description": "Deployed AI agent framework with Docker, security hardening, and Telegram bridge"
+    },
+    {
+      "id": 2,
+      "title": "Built Career Development Dashboard",
+      "category": "project",
+      "date": "2026-02-17",
+      "description": "Flask web app to track career transition progress"
+    }
+  ],
+  "learning_log": [
+    {
+      "date": "2026-02-17",
+      "entry": "Set up career dashboard and Aria career coach",
+      "tags": [
+        "setup",
+        "milestone"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "title": "Python Crash Course",
+      "url": "https://nostarch.com/python-crash-course-3rd-edition",
+      "category": "course",
+      "phase": 1,
+      "status": "in_progress"
+    },
+    {
+      "title": "Andrew Ng ML Specialization",
+      "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+      "category": "course",
+      "phase": 1,
+      "status": "pending"
+    },
+    {
+      "title": "fast.ai Practical Deep Learning",
+      "url": "https://course.fast.ai/",
+      "category": "course",
+      "phase": 2,
+      "status": "pending"
+    },
+    {
+      "title": "AWS Cloud Practitioner",
+      "url": "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+      "category": "certification",
+      "phase": 1,
+      "status": "pending"
+    },
+    {
+      "title": "Hands-On ML with Scikit-Learn (Geron)",
+      "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125974/",
+      "category": "book",
+      "phase": 1,
+      "status": "pending"
+    },
+    {
+      "title": "Real Python",
+      "url": "https://realpython.com/",
+      "category": "reference",
+      "phase": 1,
+      "status": "bookmarked"
+    },
+    {
+      "title": "Kaggle",
+      "url": "https://www.kaggle.com/",
+      "category": "practice",
+      "phase": 1,
+      "status": "bookmarked"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 1,
+      "title": "Aria Personal AI",
+      "status": "complete",
+      "github": "",
+      "description": "AI agent framework on Raspberry Pi with Docker, security, Telegram",
+      "phase": 1
+    },
+    {
+      "id": 2,
+      "title": "Career Dashboard",
+      "status": "in_progress",
+      "github": "",
+      "description": "Flask web app for career transition tracking",
+      "phase": 1
+    },
+    {
+      "id": 3,
+      "title": "ML Pipeline End-to-End",
+      "status": "planned",
+      "github": "",
+      "description": "Data ingestion \u2192 model training \u2192 deployment pipeline",
+      "phase": 2
+    },
+    {
+      "id": 4,
+      "title": "RAG Document Q&A",
+      "status": "planned",
+      "github": "",
+      "description": "Document Q&A app with vector database and LLM",
+      "phase": 2
+    },
+    {
+      "id": 5,
+      "title": "Cloud AI Service",
+      "status": "planned",
+      "github": "",
+      "description": "Deployed model on AWS/Azure with REST API",
+      "phase": 3
+    },
+    {
+      "id": 6,
+      "title": "Manufacturing AI",
+      "status": "planned",
+      "github": "",
+      "description": "Predictive maintenance or quality inspection using domain expertise",
+      "phase": 3
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Cloud Practitioner",
+      "target_month": 4,
+      "status": "pending",
+      "phase": 1
+    },
+    {
+      "name": "AWS Solutions Architect Associate",
+      "target_month": 10,
+      "status": "pending",
+      "phase": 2
+    },
+    {
+      "name": "AWS ML Specialty",
+      "target_month": 16,
+      "status": "pending",
+      "phase": 3
+    },
+    {
+      "name": "Terraform Associate",
+      "target_month": 22,
+      "status": "pending",
+      "phase": 3
+    }
+  ],
+  "time_entries": [],
+  "networking": [],
+  "confidence_journal": [],
+  "weekly_focus": {
+    "week_of": "2026-02-17",
+    "study": [
+      "Complete Python basics chapters",
+      "Set up Jupyter notebook environment"
+    ],
+    "build": [
+      "Career dashboard improvements",
+      "Explore Aria capabilities"
+    ],
+    "connect": [
+      "Join r/MachineLearning",
+      "Find local AI meetup"
+    ]
+  },
+  "settings": {
+    "weekly_study_target_hours": 15,
+    "agent_zero_url": "ws://agent-zero:80/ws",
+    "theme": "dark"
+  }
+}

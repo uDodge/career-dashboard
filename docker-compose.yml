@@ -1,0 +1,20 @@
+services:
+  career-dashboard:
+    build: .
+    container_name: career-dashboard
+    ports:
+      - "192.168.1.95:50002:5000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DATA_FILE=/app/data/career_data.json
+      - AGENT_ZERO_WS=ws://agent-zero:80/ws
+      - AGENT_ZERO_HTTP=http://agent-zero:80
+      - AGENT_ZERO_API_KEY=${AGENT_ZERO_API_KEY}
+    networks:
+      - agent-zero-net
+    restart: unless-stopped
+
+networks:
+  agent-zero-net:
+    external: true

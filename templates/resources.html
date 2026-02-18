@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Library - Career Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-header">Resource Library</h1>
+
+    <!-- Phase Filter Buttons -->
+    <div class="filter-buttons" style="margin-bottom: 20px;">
+        <button class="btn btn-small" onclick="filterByPhase('all')" data-active="true">All</button>
+        <button class="btn btn-small" onclick="filterByPhase('phase1')">Phase 1</button>
+        <button class="btn btn-small" onclick="filterByPhase('phase2')">Phase 2</button>
+        <button class="btn btn-small" onclick="filterByPhase('phase3')">Phase 3</button>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" style="margin-bottom: 30px; border-bottom: 2px solid #333;">
+        <button class="tab-btn active" onclick="filterByCategory('all')" data-category="all">All</button>
+        <button class="tab-btn" onclick="filterByCategory('courses')" data-category="courses">Courses</button>
+        <button class="tab-btn" onclick="filterByCategory('books')" data-category="books">Books</button>
+        <button class="tab-btn" onclick="filterByCategory('certifications')" data-category="certifications">Certifications</button>
+        <button class="tab-btn" onclick="filterByCategory('practice')" data-category="practice">Practice</button>
+        <button class="tab-btn" onclick="filterByCategory('reference')" data-category="reference">Reference</button>
+    </div>
+
+    <!-- Resource Cards Grid -->
+    <div class="grid" id="resourceGrid">
+        {% for resource in data.resources %}
+        <div class="resource-card card" data-phase="{{ resource.phase }}" data-category="{{ resource.category }}">
+            <h3>
+                <a href="{{ resource.url }}" target="_blank" rel="noopener noreferrer">{{ resource.title }}</a>
+            </h3>
+            <div style="margin: 10px 0;">
+                <span class="badge badge-{{ resource.category }}">{{ resource.category|capitalize }}</span>
+                <span class="badge badge-{{ resource.phase }}">{{ resource.phase|upper }}</span>
+                {% if resource.status == 'complete' %}
+                <span class="badge badge-complete">Complete</span>
+                {% elif resource.status == 'in_progress' %}
+                <span class="badge badge-active">In Progress</span>
+                {% else %}
+                <span class="badge badge-pending">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add Resource Form -->
+    <div class="card" style="margin-top: 40px;">
+        <h2 class="section-header">Add New Resource</h2>
+        <form id="addResourceForm" onsubmit="addResource(event)">
+            <div class="form-group">
+                <label for="resourceTitle">Title</label>
+                <input type="text" id="resourceTitle" name="title" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="resourceUrl">URL</label>
+                <input type="url" id="resourceUrl" name="url" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="resourceCategory">Category</label>
+                <select id="resourceCategory" name="category" class="form-select" required>
+                    <option value="courses">Courses</option>
+                    <option value="books">Books</option>
+                    <option value="certifications">Certifications</option>
+                    <option value="practice">Practice</option>
+                    <option value="reference">Reference</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="resourcePhase">Phase</label>
+                <select id="resourcePhase" name="phase" class="form-select" required>
+                    <option value="phase1">Phase 1</option>
+                    <option value="phase2">Phase 2</option>
+                    <option value="phase3">Phase 3</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Resource</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let currentPhase = 'all';
+let currentCategory = 'all';
+
+function filterByPhase(phase) {
+    currentPhase = phase;
+    applyFilters();
+
+    // Update button states
+    document.querySelectorAll('.filter-buttons .btn').forEach(btn => {
+        btn.removeAttribute('data-active');
+    });
+    event.target.setAttribute('data-active', 'true');
+}
+
+function filterByCategory(category) {
+    currentCategory = category;
+    applyFilters();
+
+    // Update tab states
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+
+function applyFilters() {
+    const cards = document.querySelectorAll('.resource-card');
+    cards.forEach(card => {
+        const cardPhase = card.getAttribute('data-phase');
+        const cardCategory = card.getAttribute('data-category');
+
+        const phaseMatch = currentPhase === 'all' || cardPhase === currentPhase;
+        const categoryMatch = currentCategory === 'all' || cardCategory === currentCategory;
+
+        if (phaseMatch && categoryMatch) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+async function addResource(event) {
+    event.preventDefault();
+
+    const formData = {
+        title: document.getElementById('resourceTitle').value,
+        url: document.getElementById('resourceUrl').value,
+        category: document.getElementById('resourceCategory').value,
+        phase: document.getElementById('resourcePhase').value
+    };
+
+    try {
+        const response = await fetch('/api/resource', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('Resource added successfully!');
+            location.reload();
+        } else {
+            alert('Failed to add resource');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error adding resource');
+    }
+}
+</script>
+
+<style>
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+.tab-btn.active {
+    color: #4CAF50;
+    border-bottom-color: #4CAF50;
+}
+
+.filter-buttons .btn[data-active="true"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.resource-card {
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.resource-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.resource-card h3 a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.resource-card h3 a:hover {
+    text-decoration: underline;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+</style>
+{% endblock %}

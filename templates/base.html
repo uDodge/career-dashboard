@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Career Dashboard{% endblock %} — PJ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>PJ's Career</h2>
+            <span class="subtitle">IT → AI Architect</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Dashboard</a></li>
+            <li><a href="/goals" class="{% if request.path == '/goals' %}active{% endif %}">Goals & Roadmap</a></li>
+            <li><a href="/achievements" class="{% if request.path == '/achievements' %}active{% endif %}">Achievements</a></li>
+            <li><a href="/timeline" class="{% if request.path == '/timeline' %}active{% endif %}">Timeline</a></li>
+            <li><a href="/skills" class="{% if request.path == '/skills' %}active{% endif %}">Skills & Learning</a></li>
+            <li><a href="/resources" class="{% if request.path == '/resources' %}active{% endif %}">Resources</a></li>
+            <li><a href="/portfolio" class="{% if request.path == '/portfolio' %}active{% endif %}">Portfolio</a></li>
+            <li><a href="/review" class="{% if request.path == '/review' %}active{% endif %}">Monthly Review</a></li>
+            <li><a href="/settings" class="{% if request.path == '/settings' %}active{% endif %}">Settings</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Aria Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <button id="chat-toggle" class="chat-toggle" onclick="toggleChat()">Aria</button>
+        <div id="chat-panel" class="chat-panel hidden">
+            <div class="chat-header">
+                <span>Aria — Career Coach</span>
+                <button onclick="toggleChat()" class="chat-close">&times;</button>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <form id="chat-form" class="chat-input-area" onsubmit="sendMessage(event)">
+                <input type="text" id="chat-input" placeholder="Ask your career coach..." autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

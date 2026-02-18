@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-value">{{ days }}</div>
+        <div class="stat-label">Days into Journey</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ phase.name }}</div>
+        <div class="stat-label">Current Phase</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_achievements }}</div>
+        <div class="stat-label">Achievements</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_hours }}</div>
+        <div class="stat-label">Study Hours</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ pending_milestones }}</div>
+        <div class="stat-label">Pending Milestones</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-header">Weekly Focus</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+        <div>
+            <h3>Study</h3>
+            <ul>
+                {% for item in data.weekly_focus.study %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Build</h3>
+            <ul>
+                {% for item in data.weekly_focus.build %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Connect</h3>
+            <ul>
+                {% for item in data.weekly_focus.connect %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-header">Current Phase Milestones</h2>
+    <div style="margin-top: 20px;">
+        {% for milestone in phase.milestones %}
+        <div class="milestone-item">
+            <input type="checkbox" {% if milestone.status == 'complete' %}checked{% endif %} disabled>
+            <span>{{ milestone.title }}</span>
+            <span class="badge badge-{{ milestone.status }}">{{ milestone.status }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-header">Recent Achievements</h2>
+    <div style="margin-top: 20px;">
+        {% for achievement in data.achievements[::-1][:5] %}
+        <div class="achievement-card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h3>{{ achievement.title }}</h3>
+                    <span class="badge">{{ achievement.category }}</span>
+                    <p style="margin-top: 10px;">{{ achievement.description }}</p>
+                </div>
+                <div style="color: #6c757d; font-size: 0.9em;">{{ achievement.date }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-header">Quick Actions</h2>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <a href="#" class="btn btn-primary" onclick="logTime(); return false;">Log Time</a>
+        <a href="/achievements" class="btn btn-primary">Add Achievement</a>
+        <a href="/skills" class="btn btn-primary">Learning Note</a>
+    </div>
+</div>
+
+<script>
+function logTime() {
+    const hours = prompt('Enter study hours:');
+    if (hours) {
+        fetch('/api/log_time', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({hours: parseFloat(hours)})
+        }).then(() => location.reload());
+    }
+}
+</script>
+{% endblock %}

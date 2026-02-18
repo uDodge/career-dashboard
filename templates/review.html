@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Monthly Review - Career Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-header">Monthly Review</h1>
+
+    <!-- Self-Assessment Section -->
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 class="section-header">Self-Assessment</h2>
+
+        <form id="reviewForm" onsubmit="submitReview(event)">
+            <div class="form-group">
+                <label for="accomplishments">What did I accomplish this month?</label>
+                <textarea id="accomplishments" name="accomplishments" class="form-textarea" rows="4" placeholder="List your key accomplishments..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="challenges">What challenges did I face?</label>
+                <textarea id="challenges" name="challenges" class="form-textarea" rows="4" placeholder="Describe challenges and how you addressed them..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="skills_improved">What skills improved most?</label>
+                <textarea id="skills_improved" name="skills_improved" class="form-textarea" rows="4" placeholder="Identify specific skills that developed..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="next_focus">What should I focus on next month?</label>
+                <textarea id="next_focus" name="next_focus" class="form-textarea" rows="4" placeholder="Set priorities for the coming month..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="confidence_rating">Rate your confidence (1-10)</label>
+                <input type="number" id="confidence_rating" name="confidence_rating" class="form-input" min="1" max="10" placeholder="1-10">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Review</button>
+        </form>
+    </div>
+
+    <!-- Confidence Journal Section -->
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 class="section-header">Confidence Journal</h2>
+
+        <form id="confidenceForm" onsubmit="addConfidenceEntry(event)" style="margin-bottom: 30px;">
+            <div class="form-group">
+                <label for="win">Today's Win</label>
+                <input type="text" id="win" name="win" class="form-input" placeholder="What went well today?" required>
+            </div>
+
+            <div class="form-group">
+                <label for="feeling">How do you feel about it?</label>
+                <textarea id="feeling" name="feeling" class="form-textarea" rows="3" placeholder="Reflect on your feelings and progress..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Entry</button>
+        </form>
+
+        <h3 style="margin-top: 30px; margin-bottom: 15px; color: #fff;">Recent Entries</h3>
+        <div id="confidenceEntries">
+            {% for entry in data.confidence_journal %}
+            <div class="card" style="margin-bottom: 15px; padding: 15px; background-color: #1a1a1a;">
+                <div style="color: #888; font-size: 12px; margin-bottom: 8px;">{{ entry.date }}</div>
+                <div style="color: #4CAF50; font-weight: 600; margin-bottom: 8px;">{{ entry.win }}</div>
+                <div style="color: #ccc;">{{ entry.feeling }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Time Tracking Section -->
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 class="section-header">Time Tracking</h2>
+
+        <form id="timeForm" onsubmit="addTimeEntry(event)" style="margin-bottom: 30px;">
+            <div class="form-group">
+                <label for="hours">Hours</label>
+                <input type="number" id="hours" name="hours" class="form-input" min="0.5" max="24" step="0.5" placeholder="Hours spent" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time_category">Category</label>
+                <select id="time_category" name="category" class="form-select" required>
+                    <option value="study">Study</option>
+                    <option value="coding">Coding</option>
+                    <option value="project">Project</option>
+                    <option value="networking">Networking</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="time_notes">Notes</label>
+                <input type="text" id="time_notes" name="notes" class="form-input" placeholder="What did you work on?">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Log Time</button>
+        </form>
+
+        <h3 style="margin-top: 30px; margin-bottom: 15px; color: #fff;">Recent Time Entries</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #333;">Date</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #333;">Category</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #333;">Hours</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid #333;">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data.time_entries[:20] %}
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #333; color: #888;">{{ entry.date }}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #333;">
+                        <span class="badge badge-{{ entry.category }}">{{ entry.category|capitalize }}</span>
+                    </td>
+                    <td style="padding: 10px; border-bottom: 1px solid #333; color: #ccc;">{{ entry.hours }}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #333; color: #ccc;">{{ entry.notes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Networking Section -->
+    <div class="card">
+        <h2 class="section-header">Networking & Community</h2>
+
+        <form id="networkingForm" onsubmit="addNetworkingEntry(event)" style="margin-bottom: 30px;">
+            <div class="form-group">
+                <label for="networking_title">Event/Contact</label>
+                <input type="text" id="networking_title" name="title" class="form-input" placeholder="Event name or contact" required>
+            </div>
+
+            <div class="form-group">
+                <label for="networking_type">Type</label>
+                <select id="networking_type" name="type" class="form-select" required>
+                    <option value="event">Event</option>
+                    <option value="contact">Contact</option>
+                    <option value="community">Community</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="networking_notes">Notes</label>
+                <textarea id="networking_notes" name="notes" class="form-textarea" rows="3" placeholder="Key takeaways and follow-up actions..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Entry</button>
+        </form>
+
+        <h3 style="margin-top: 30px; margin-bottom: 15px; color: #fff;">Networking Activity</h3>
+        <div id="networkingEntries">
+            {% for entry in data.networking %}
+            <div class="card" style="margin-bottom: 15px; padding: 15px; background-color: #1a1a1a;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="color: #fff; font-weight: 600;">{{ entry.title }}</div>
+                    <span class="badge badge-{{ entry.type }}">{{ entry.type|capitalize }}</span>
+                </div>
+                <div style="color: #888; font-size: 12px; margin-bottom: 8px;">{{ entry.date }}</div>
+                <div style="color: #ccc;">{{ entry.notes }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+async function submitReview(event) {
+    event.preventDefault();
+    alert('Review functionality would submit to backend');
+}
+
+async function addConfidenceEntry(event) {
+    event.preventDefault();
+
+    const formData = {
+        win: document.getElementById('win').value,
+        feeling: document.getElementById('feeling').value
+    };
+
+    try {
+        const response = await fetch('/api/confidence', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('Confidence entry added successfully!');
+            location.reload();
+        } else {
+            alert('Failed to add entry');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error adding entry');
+    }
+}
+
+async function addTimeEntry(event) {
+    event.preventDefault();
+
+    const formData = {
+        hours: parseFloat(document.getElementById('hours').value),
+        category: document.getElementById('time_category').value,
+        notes: document.getElementById('time_notes').value
+    };
+
+    try {
+        const response = await fetch('/api/time_entry', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('Time entry logged successfully!');
+            location.reload();
+        } else {
+            alert('Failed to log time');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error logging time');
+    }
+}
+
+async function addNetworkingEntry(event) {
+    event.preventDefault();
+
+    const formData = {
+        title: document.getElementById('networking_title').value,
+        type: document.getElementById('networking_type').value,
+        notes: document.getElementById('networking_notes').value
+    };
+
+    try {
+        const response = await fetch('/api/networking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('Networking entry added successfully!');
+            location.reload();
+        } else {
+            alert('Failed to add entry');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error adding entry');
+    }
+}
+</script>
+
+<style>
+table {
+    color: #ccc;
+}
+
+th {
+    color: #fff;
+    font-weight: 600;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Timeline{% endblock %}
+
+{% block content %}
+<h1 class="section-header">Career Journey Timeline</h1>
+
+<div class="timeline" style="margin-top: 40px;">
+    {% for phase in data.phases %}
+    <div class="timeline-item">
+        <div class="timeline-marker timeline-marker-{{ phase.status }}"></div>
+        <div class="timeline-content">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <div>
+                        <h2>{{ phase.name }}</h2>
+                        <div style="color: #6c757d; margin-top: 5px;">{{ phase.months }}</div>
+                    </div>
+                    <span class="badge badge-{{ phase.status }}">{{ phase.status }}</span>
+                </div>
+
+                <p style="margin-bottom: 20px;">{{ phase.description }}</p>
+
+                <h3 style="margin-bottom: 10px; font-size: 1.1em;">Milestones</h3>
+                <ul style="margin-left: 20px;">
+                    {% for milestone in phase.milestones %}
+                    <li style="margin-bottom: 8px;">
+                        {{ milestone.title }}
+                        <span class="badge badge-{{ milestone.status }}" style="margin-left: 10px; font-size: 0.8em;">
+                            {{ milestone.status }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                {% set phase_achievements = [] %}
+                {% for achievement in data.achievements %}
+                    {% if phase.status == 'complete' or phase.status == 'active' %}
+                        {% set _ = phase_achievements.append(achievement) %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if phase_achievements %}
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                    <h3 style="margin-bottom: 10px; font-size: 1.1em;">Achievements</h3>
+                    {% for achievement in phase_achievements[:3] %}
+                    <div style="margin-bottom: 10px;">
+                        <strong>{{ achievement.title }}</strong>
+                        <span class="badge" style="margin-left: 10px; font-size: 0.8em;">{{ achievement.category }}</span>
+                        <div style="color: #6c757d; font-size: 0.9em; margin-top: 5px;">{{ achievement.date }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -40px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid;
+    background: white;
+}
+
+.timeline-marker-active {
+    border-color: #28a745;
+    background: #28a745;
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2);
+}
+
+.timeline-marker-complete {
+    border-color: #007bff;
+    background: #007bff;
+}
+
+.timeline-marker-upcoming {
+    border-color: #6c757d;
+    background: white;
+}
+
+.timeline-content {
+    margin-left: 20px;
+}
+</style>
+{% endblock %}
