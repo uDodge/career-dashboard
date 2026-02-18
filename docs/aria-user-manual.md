@@ -195,7 +195,7 @@ services:
 
     # Bind to LAN interface only - not 0.0.0.0
     ports:
-      - "192.168.1.95:50001:80"
+      - "192.168.1....:80"
 
     # Persistent volumes
     volumes:
