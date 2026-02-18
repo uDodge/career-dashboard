@@ -163,6 +163,9 @@ body {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 .stat-label {
