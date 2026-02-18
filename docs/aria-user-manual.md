@@ -528,7 +528,7 @@ services:
     build: .
     container_name: career-dashboard
     ports:
-      - "192.168.1.95:50002:5000"
+      - "192.168.1....:5000"
     volumes:
       - ./data:/app/data
     environment:
@@ -545,7 +545,7 @@ networks:
     external: true
 ```
 
-> **Important:** Replace `192.168.1.95` with your Pi's LAN IP.
+> **Important:** Replace `192.168....` with your Pi's LAN IP.
 
 **Key configuration:**
 - Port 50002 on the LAN IP maps to Flask's port 5000 inside the container
@@ -565,7 +565,7 @@ Verify:
 docker ps | grep career-dashboard
 ```
 
-Access at `http://192.168.1.95:50002`.
+Access at `http://192.168.1....`.
 
 ### 3.6 Telegram Bridge Deployment
 
@@ -732,7 +732,7 @@ Status: active
 [ 4] 22/tcp (v6)                ALLOW IN    Anywhere (v6)
 ```
 
-> **Note:** Tailscale traffic bypasses UFW by default because it uses a separate network interface (`tailscale0`), so no additional firewall rules are needed for remote access via Tailscale.
+> **Note:** Tailscale traffic bypasses UFW by default because it uses a separate network interface (`tails...`), so no additional firewall rules are needed for remote access via Tailscale.
 
 ### 3.8 Tailscale
 
@@ -779,7 +779,7 @@ Install the Tailscale app on your MacBook, tablet, or phone:
 
 ### 4.1 Agent Zero Web UI
 
-Access at `http://192.168.1.95:50001` (LAN) or `http://[tailscale-ip]:50001` (remote).
+Access at `http://192.168.1....` (LAN) or `http://[tailscale-ip]:50001` (remote).
 
 The web UI provides:
 - **Chat interface** — Direct conversation with Aria
@@ -804,7 +804,7 @@ The web UI provides:
 
 ### 4.2 Career Dashboard Pages
 
-Access at `http://192.168.1.95:50002` (LAN) or `http://[tailscale-ip]:50002` (remote).
+Access at `http://192.168.1.....` (LAN) or `http://[tailscale-ip]:50002` (remote).
 
 #### Dashboard Home (`/`)
 - **Stats row** — Days since transition start, current phase name, total achievements, total study hours, pending milestones
@@ -1253,10 +1253,10 @@ df -h         # Disk usage
 curl http://localhost:8080/health
 
 # Agent Zero (should return the web UI)
-curl -s http://192.168.1.95:50001 | head -5
+curl -s http://192.168.1.... | head -5
 
 # Dashboard
-curl -s http://192.168.1.95:50002 | head -5
+curl -s http://192.168.1.... | head -5
 ```
 
 ---
