@@ -3,7 +3,7 @@
 Comprehensive deployment and operations guide for the Aria AI ecosystem running on Raspberry Pi 5.
 
 **Version:** 1.0
-**Last updated:** 2026-02-18
+**Last updated:** 2026-02-19
 
 ---
 
@@ -1426,6 +1426,57 @@ docker compose restart
    ```
 
 4. Verify by asking Aria "who are you?" — the response should reflect the role prompt.
+
+### 7.9 MCP Servers All Fail with "Connection Closed"
+
+**Symptom:** All MCP servers (filesystem, brave-search, github, google-workspace) show "McpError: Connection closed" in the Agent Zero logs. Aria says she doesn't have MCP tool capabilities.
+
+**Cause:** The MCP Python library's `get_default_environment()` returns only two keys: `HOME=/root` and `PATH=...`. When an MCP server config includes an `env` block, the subprocess environment becomes `{HOME, PATH} + server_env` — **none of the container-level environment variables are inherited**. This means `npm_config_cache`, `UV_CACHE_DIR`, and `XDG_CACHE_HOME` are missing from MCP subprocesses.
+
+Without cache redirection, `npx` and `uvx` write their caches to `/root`, which is a size-limited tmpfs mount. Once `/root` fills up (ENOSPC), every MCP server subprocess crashes on startup, producing the "Connection closed" error.
+
+**Diagnosis:**
+```bash
+# Check if /root tmpfs is full
+docker exec agent-zero df -h /root
+
+# Check what's consuming space
+docker exec agent-zero sh -c "du -sh /root/.* 2>/dev/null | sort -rh"
+
+# Typical culprits: /root/.cache/uv (uvx) and /root/.npm (npx)
+```
+
+**Fix:**
+1. Clear the full tmpfs:
+   ```bash
+   docker exec agent-zero sh -c "rm -rf /root/.cache /root/.npm /root/.local"
+   ```
+
+2. Add cache redirection env vars to **every** MCP server's `env` block in `settings.json`:
+   ```json
+   "env": {
+       "npm_config_cache": "/a0/usr/npm_cache",
+       "UV_CACHE_DIR": "/a0/usr/uv_cache",
+       "XDG_CACHE_HOME": "/a0/usr/cache",
+       ... (plus the server's own env vars)
+   }
+   ```
+
+3. Trigger a reload — either restart Agent Zero or re-save the MCP config from the web UI settings page.
+
+4. Verify servers initialised:
+   ```bash
+   docker logs agent-zero 2>&1 | grep "Tools updated"
+   ```
+   Expected output:
+   ```
+   MCPClientBase (filesystem): Tools updated. Found 14 tools.
+   MCPClientBase (brave_search): Tools updated. Found 2 tools.
+   MCPClientBase (github): Tools updated. Found 26 tools.
+   MCPClientBase (google_workspace): Tools updated. Found 142 tools.
+   ```
+
+**Key takeaway:** Any time you add a new MCP server to `settings.json`, always include the three cache env vars in its `env` block, or the `/root` tmpfs will eventually fill up and break all MCP servers.
 
 ---
 
